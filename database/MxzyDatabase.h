@@ -54,6 +54,9 @@ int createCharacter(CharacterTable *table);
 //通过角色ID获取当前角色数据
 int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id);
 
+//通过角色数据进行的一系列操作
+
+
 
 int toWriteData(FILE *fp, CharacterTable *table);
 int toReadData(FILE *fp, CharacterTable *table);
