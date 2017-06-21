@@ -14,6 +14,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <stdlib.h>
+#include "definer/define_globalinfo.h"
 
 #define CHARACTER_NAME_LENGTH 20
 #define FARM_NAME_LENGTH 20
