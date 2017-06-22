@@ -16,31 +16,9 @@
 #include <stdlib.h>
 #include "definer/define_globalinfo.h"
 #include "definer/error.h"
+#include "definer/CharacterTable.h"
+#include "EnterData.h"
 
-#define CHARACTER_NAME_LENGTH 20
-#define FARM_NAME_LENGTH 20
-#define FISHERY_NAME_LENGTH 20
-#define PASTURE_NAME_LENGTH 20
-#define CHARACTER_MAX 3
-
-typedef struct detail_table{
-    char farm_name[FARM_NAME_LENGTH];
-    char fishery_name[FISHERY_NAME_LENGTH];
-    char pasture_name[PASTURE_NAME_LENGTH];
-}DetailTable;
-
-typedef struct character_row{
-    int character_id;
-    char character_name[CHARACTER_NAME_LENGTH];
-    DetailTable detailTable;
-}CharacterRow;
-
-//判断character_name是否为空
-typedef struct character_table{
-    CharacterRow c1;
-    CharacterRow c2;
-    CharacterRow c3;
-}CharacterTable;
 
 int createOrGetLocalStorage(FILE **fpp, const char *path);
 void closeLocalStorage(FILE *fp);
@@ -54,8 +32,20 @@ int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id);
 
 //通过角色数据进行的一系列操作
 
-
+//通过GlobalInfo进行的一系列操作
 
 int toWriteData(FILE *fp, CharacterTable *table);
 int toReadData(FILE *fp, CharacterTable *table);
+
+
+//GlobalInfo的有关函数
+int createOrGetGlobalInfoFile(FILE **fpp, const char *path);
+void closeGlobalInfoFile(FILE *fp);
+void initGlobalInfo(GlobalInfo **info);
+void freeGlobalInfo(GlobalInfo *info);
+int toWriteGlobalInfo(FILE *fp, GlobalInfo *info);
+int toReadGlobalInfo(FILE *fp, GlobalInfo *info);
+int getGoodsBagCapacity(GlobalInfo *info, int bag_level);
+GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id);
+
 #endif /* MxzyDatabase_h */

@@ -10,9 +10,11 @@
 #define define_globalinfo_h
 
 #include "define_allgoodsinfo.h"
+#include "define_goodsbaginfo.h"
 
 typedef struct global_info{
     AllGoodsInfo allgoods_info;
+    GoodsBagInfo goodsbag_info;
 }GlobalInfo;
 
 

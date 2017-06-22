@@ -30,7 +30,6 @@ int createOrGetLocalStorage(FILE **fpp, const char *path){
     }
     return SUCCESS;
 }
-
 void closeLocalStorage(FILE *fp){
     if (fp == NULL) {
         perror("pointer cannot be null");
@@ -38,12 +37,10 @@ void closeLocalStorage(FILE *fp){
     }
     fclose(fp);
 }
-
 void initCharacterTable(CharacterTable **table){
     *table = (CharacterTable *)malloc(sizeof(CharacterTable));
     memset(*table, 0, sizeof(CharacterTable));
 }
-
 void freeCharacterTable(CharacterTable *table){
     if (table == NULL) {
         perror("pointer cannot be null");
@@ -51,7 +48,6 @@ void freeCharacterTable(CharacterTable *table){
     }
     free(table);
 }
-
 int createCharacter(CharacterTable *table){
     if (table==NULL) {
         return ERROR;
@@ -70,7 +66,6 @@ int createCharacter(CharacterTable *table){
     }
     return SUCCESS;
 }
-
 int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id){
     if (table==NULL) {
         perror("pointer cannot be null");
@@ -87,7 +82,6 @@ int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id){
     }
     return ERROR;
 }
-
 int toWriteData(FILE *fp, CharacterTable *table){
     if (fp==NULL || table==NULL) {
         perror("pointer cannot be null");
@@ -111,3 +105,95 @@ int toReadData(FILE *fp, CharacterTable *table){
     fread(table, sizeof(CharacterTable), 1, fp);
     return SUCCESS;
 }
+
+
+
+
+
+int createOrGetGlobalInfoFile(FILE **fpp, const char *path){
+    if (path==NULL)
+        return ERROR;
+    
+    int ret = access(path, F_OK);
+    
+    //如果文件不存在，新建该文件
+    if (ret < 0) {
+        *fpp = fopen(path, "wb+");
+        if (*fpp==NULL)
+            return ERROR;
+    }
+    //如果存在
+    else{
+        *fpp = fopen(path, "rb+");
+        if (*fpp==NULL)
+            return ERROR;
+    }
+    return SUCCESS;
+}
+void closeGlobalInfoFile(FILE *fp){
+    if (fp == NULL) {
+        return;
+    }
+    fclose(fp);
+};
+void initGlobalInfo(GlobalInfo **info){
+    *info = (GlobalInfo *)malloc(sizeof(GlobalInfo));
+    memset(*info, 0, sizeof(GlobalInfo));
+};
+void freeGlobalInfo(GlobalInfo *info){
+    if (info == NULL) {
+        return;
+    }
+    free(info);
+};
+int toWriteGlobalInfo(FILE *fp, GlobalInfo *info){
+    if (fp==NULL || info==NULL) {
+        perror("pointer cannot be null");
+        return ERROR;
+    }
+    
+    int fd = fileno(fp);
+    int ret = ftruncate(fd, 0);
+    if (ret < 0) {
+        return ERROR;
+    }
+    
+    fwrite(info, sizeof(GlobalInfo), 1, fp);
+    return SUCCESS;
+};
+int toReadGlobalInfo(FILE *fp, GlobalInfo *info){
+    if (fp == NULL || info == NULL) {
+        perror("pointer cannot be null");
+        return ERROR;
+    }
+    fread(info, sizeof(GlobalInfo), 1, fp);
+    return SUCCESS;
+};
+int getGoodsBagCapacity(GlobalInfo *info, int bag_level){
+    if (info == NULL) {
+        printf("Info pointer is NULL.\n");
+        return ERROR;
+    }
+    
+    int i = 0;
+    for (; i<GOODSBAGINFO_MAX; i++) {
+        if (info->goodsbag_info.levels[i].bag_level == bag_level)
+            return info->goodsbag_info.levels[i].bag_capacity;
+    }
+    
+    return ERROR;
+}
+GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id){
+    if (info == NULL) {
+        printf("GlobalInfo cannot be NULL\n");
+        return NULL;
+    }
+    
+    for (int i = 0; i<ALLGOODSINFO_MAX; i++) {
+        if (info->allgoods_info.detail[i].goods_id == goods_id)
+            return &info->allgoods_info.detail[i];
+    }
+    return NULL;
+}
+
+

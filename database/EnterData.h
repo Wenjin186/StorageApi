@@ -17,16 +17,10 @@
 #include <sys/types.h>
 #include <stdlib.h>
 
-int createOrGetGlobalInfoFile(FILE **fpp, const char *path);
-void closeGlobalInfoFile(FILE *fp);
-
-void initGlobalInfo(GlobalInfo **info);
-void freeGlobalInfo(GlobalInfo *info);
-
-int toWriteGlobalInfo(FILE *fp, GlobalInfo *info);
-int toReadGlobalInfo(FILE *fp, GlobalInfo *info);
 
 int enterDataForAllGoodsInfo(GlobalInfo *info);
+int enterDataForGoodsBagInfo(GlobalInfo *info);
+
 
 
 #endif /* InitGlobalInfo_h */

@@ -22,8 +22,7 @@ typedef struct goods_detail{
 }GoodsDetail;
 
 typedef struct allgoods_info{
-    GoodsDetail d1;
-    GoodsDetail d2;
+    GoodsDetail detail[ALLGOODSINFO_MAX];
 }AllGoodsInfo;
 
 #endif /* define_allgoodsinfo_h */

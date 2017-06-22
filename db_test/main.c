@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include "../database/MxzyDatabase.h"
-#include "../database/InitGlobalInfo.h"
 
 
 void mxzyRead(){
@@ -101,9 +100,14 @@ void writeGlobalInfo(){
         return;
     }
     initGlobalInfo(&info);
+    
     enterDataForAllGoodsInfo(info);
+    enterDataForGoodsBagInfo(info);
+    
+    
     toWriteGlobalInfo(fp, info);
     freeGlobalInfo(info);
+    closeGlobalInfoFile(fp);
 }
 
 void readGlobalInfo(){
@@ -117,18 +121,25 @@ void readGlobalInfo(){
     initGlobalInfo(&info);
     toReadGlobalInfo(fp, info);
     
-    printf("eggplat id is %d\n", info->allgoods_info.d1.goods_id);
-    printf("eggplat name is %s\n", info->allgoods_info.d1.goods_name);
-    printf("eggplat purchase price is %lf\n", info->allgoods_info.d1.purchase_price);
+//    printf("eggplat id is %d\n", info->allgoods_info.d1.goods_id);
+//    printf("eggplat name is %s\n", info->allgoods_info.d1.goods_name);
+//    printf("eggplat purchase price is %lf\n", info->allgoods_info.d1.purchase_price);
+
+    int capacity = getGoodsBagCapacity(info, 3);
+    printf("Goods bag capacity is %d.\n", capacity);
+    
+    GoodsDetail *d = getGoodsDetailById(info, 11);
+    printf("Goods name is %s\n", d->goods_name);
     
     freeGlobalInfo(info);
+    closeGlobalInfoFile(fp);
 }
 
 int main(int argc, const char * argv[]) {
     //mxzyWrite();
     //mxzyRead();
     //getCharacterData();
-    //writeGlobalInfo();
+    writeGlobalInfo();
     readGlobalInfo();
     return 0;
 }
