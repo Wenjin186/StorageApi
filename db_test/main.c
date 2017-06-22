@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "../database/MxzyDatabase.h"
+#include "../database/InitGlobalInfo.h"
 
 
 void mxzyRead(){
@@ -91,10 +92,44 @@ void getCharacterData(){
     closeLocalStorage(fp);
 }
 
+void writeGlobalInfo(){
+    FILE *fp = NULL;
+    GlobalInfo *info = NULL;
+    int ret = createOrGetGlobalInfoFile(&fp, "global.bin");
+    if (ret == ERROR) {
+        printf("error!\n");
+        return;
+    }
+    initGlobalInfo(&info);
+    enterDataForAllGoodsInfo(info);
+    toWriteGlobalInfo(fp, info);
+    freeGlobalInfo(info);
+}
+
+void readGlobalInfo(){
+    FILE *fp = NULL;
+    GlobalInfo *info = NULL;
+    int ret = createOrGetGlobalInfoFile(&fp, "global.bin");
+    if (ret == ERROR) {
+        printf("error!\n");
+        return;
+    }
+    initGlobalInfo(&info);
+    toReadGlobalInfo(fp, info);
+    
+    printf("eggplat id is %d\n", info->allgoods_info.d1.goods_id);
+    printf("eggplat name is %s\n", info->allgoods_info.d1.goods_name);
+    printf("eggplat purchase price is %lf\n", info->allgoods_info.d1.purchase_price);
+    
+    freeGlobalInfo(info);
+}
+
 int main(int argc, const char * argv[]) {
     //mxzyWrite();
     //mxzyRead();
-    getCharacterData();
+    //getCharacterData();
+    //writeGlobalInfo();
+    readGlobalInfo();
     return 0;
 }
 

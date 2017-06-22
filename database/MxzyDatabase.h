@@ -15,16 +15,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include "definer/define_globalinfo.h"
+#include "definer/error.h"
 
 #define CHARACTER_NAME_LENGTH 20
 #define FARM_NAME_LENGTH 20
 #define FISHERY_NAME_LENGTH 20
 #define PASTURE_NAME_LENGTH 20
 #define CHARACTER_MAX 3
-
-
-#define ERROR -1
-#define SUCCESS 0
 
 typedef struct detail_table{
     char farm_name[FARM_NAME_LENGTH];

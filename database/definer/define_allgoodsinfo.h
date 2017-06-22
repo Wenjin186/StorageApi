@@ -9,14 +9,15 @@
 #ifndef define_allgoodsinfo_h
 #define define_allgoodsinfo_h
 
-#define GOODSNAME_LENGTH 10
+#define GOODSNAME_LENGTH 128
 #define ALLGOODSINFO_MAX 10
 
 typedef struct goods_detail{
     int goods_id;
     char goods_name[GOODSNAME_LENGTH];
+    double purchase_price;
+    double sell_price;
     int goods_type;
-    int smail_goods;
     int goods_max;
 }GoodsDetail;
 
