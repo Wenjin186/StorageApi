@@ -9,12 +9,16 @@
 #ifndef define_globalinfo_h
 #define define_globalinfo_h
 
-#include "define_allgoodsinfo.h"
-#include "define_goodsbaginfo.h"
+#include "AllGoodsInfo.h"
+#include "GoodsBagInfo.h"
+#include "AllToolsInfo.h"
+#include "ToolsBagInfo.h"
 
 typedef struct global_info{
     AllGoodsInfo allgoods_info;
     GoodsBagInfo goodsbag_info;
+    AllToolsInfo alltools_info;
+    ToolsBagInfo toolsbag_info;
 }GlobalInfo;
 
 

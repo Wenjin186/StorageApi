@@ -14,7 +14,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <stdlib.h>
-#include "definer/define_globalinfo.h"
+#include "definer/GlobalInfo.h"
 #include "definer/error.h"
 #include "definer/CharacterTable.h"
 #include "EnterData.h"
@@ -29,14 +29,15 @@ void freeCharacterTable(CharacterTable *table);
 int createCharacter(CharacterTable *table);
 //通过角色ID获取当前角色数据
 int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id);
-
 //通过角色数据进行的一系列操作
 
-//通过GlobalInfo进行的一系列操作
+//设置角色的名字
+int setCharacterName(CharacterRow *row, const char *name);
+//获得角色的名字
+char *getCharacterName(CharacterRow *row);
 
 int toWriteData(FILE *fp, CharacterTable *table);
 int toReadData(FILE *fp, CharacterTable *table);
-
 
 //GlobalInfo的有关函数
 int createOrGetGlobalInfoFile(FILE **fpp, const char *path);
@@ -45,7 +46,13 @@ void initGlobalInfo(GlobalInfo **info);
 void freeGlobalInfo(GlobalInfo *info);
 int toWriteGlobalInfo(FILE *fp, GlobalInfo *info);
 int toReadGlobalInfo(FILE *fp, GlobalInfo *info);
+              //通过GlobalInfo获取的属性
+void enterGlobalInfoDataBeforeSaving(GlobalInfo *info);
+
 int getGoodsBagCapacity(GlobalInfo *info, int bag_level);
+int getToolsBagCapacity(GlobalInfo *info, int bag_level);
 GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id);
+ToolDetail  *getToolDetailById(GlobalInfo *info, int tool_id);
+
 
 #endif /* MxzyDatabase_h */

@@ -57,14 +57,14 @@ int createCharacter(CharacterTable *table){
     for (int i = 1; i<=CHARACTER_MAX; i++, row++) {
         if (row->character_id == 0) {
             row->character_id = i;
-            break;
+            return i;
         }
         
         if (i==CHARACTER_MAX && row->character_id!=0) {
             return ERROR; //无法注册 角色已经满了
         }
     }
-    return SUCCESS;
+    return ERROR;
 }
 int getCharacterRowById(CharacterRow **row, CharacterTable *table, int id){
     if (table==NULL) {
@@ -87,7 +87,7 @@ int toWriteData(FILE *fp, CharacterTable *table){
         perror("pointer cannot be null");
         return ERROR;
     }
-    
+    fseek(fp, 0, SEEK_SET);
     int fd = fileno(fp); //通过FILE结构体获得文件描述符
     int ret = ftruncate(fd, 0);
     if (ret < 0) {
@@ -102,13 +102,28 @@ int toReadData(FILE *fp, CharacterTable *table){
         perror("pointer cannot be null");
         return ERROR;
     }
-    fread(table, sizeof(CharacterTable), 1, fp);
+    int ret = fread(table, sizeof(CharacterTable), 1, fp);
+    if (ret == 0) {
+        return ERROR;
+    }
     return SUCCESS;
 }
 
 
-
-
+int setCharacterName(CharacterRow *row, const char *name){
+    if (row == NULL || name == NULL) {
+        return ERROR;
+    }
+    strcpy(row->character_name, name);
+    return SUCCESS;
+}
+char *getCharacterName(CharacterRow *row){
+    if (row == NULL) {
+        printf("CharacterRow cannot be NULL.\n");
+        return NULL;
+    }
+    return row->character_name;
+};
 
 int createOrGetGlobalInfoFile(FILE **fpp, const char *path){
     if (path==NULL)
@@ -139,6 +154,12 @@ void closeGlobalInfoFile(FILE *fp){
 void initGlobalInfo(GlobalInfo **info){
     *info = (GlobalInfo *)malloc(sizeof(GlobalInfo));
     memset(*info, 0, sizeof(GlobalInfo));
+};
+void enterGlobalInfoDataBeforeSaving(GlobalInfo *info){
+    enterDataForAllGoodsInfo(info);
+    enterDataForGoodsBagInfo(info);
+    enterDataForAllToolsInfo(info);
+    enterDataForToolsBagInfo(info);
 };
 void freeGlobalInfo(GlobalInfo *info){
     if (info == NULL) {
@@ -183,6 +204,19 @@ int getGoodsBagCapacity(GlobalInfo *info, int bag_level){
     
     return ERROR;
 }
+int getToolsBagCapacity(GlobalInfo *info, int bag_level){
+    if (info == NULL) {
+        printf("Info pointer is NULL. \n");
+        return ERROR;
+    }
+    
+    int i = 0;
+    for (; i<TOOLSBAGINFO_MAX; i++) {
+        if (info->toolsbag_info.info[i].bag_level == bag_level)
+            return info->toolsbag_info.info[i].bag_capacity;
+    }
+    return ERROR;
+};
 GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id){
     if (info == NULL) {
         printf("GlobalInfo cannot be NULL\n");
@@ -192,6 +226,18 @@ GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id){
     for (int i = 0; i<ALLGOODSINFO_MAX; i++) {
         if (info->allgoods_info.detail[i].goods_id == goods_id)
             return &info->allgoods_info.detail[i];
+    }
+    return NULL;
+}
+ToolDetail  *getToolDetailById(GlobalInfo *info, int tool_id){
+    if (info == NULL) {
+        printf("GlobalInfo cannot be NULL\n");
+        return NULL;
+    }
+    
+    for (int i = 0; i<ALLTOOLSINFO_MAX; i++) {
+        if (info->alltools_info.detail[i].tool_id == tool_id)
+            return &info->alltools_info.detail[i];
     }
     return NULL;
 }

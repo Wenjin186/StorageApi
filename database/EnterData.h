@@ -9,7 +9,7 @@
 #ifndef InitGlobalInfo_h
 #define InitGlobalInfo_h
 
-#include "definer/define_globalinfo.h"
+#include "definer/GlobalInfo.h"
 #include "definer/error.h"
 #include <stdio.h>
 #include <string.h>
@@ -20,6 +20,8 @@
 
 int enterDataForAllGoodsInfo(GlobalInfo *info);
 int enterDataForGoodsBagInfo(GlobalInfo *info);
+int enterDataForAllToolsInfo(GlobalInfo *info);
+int enterDataForToolsBagInfo(GlobalInfo *info);
 
 
 

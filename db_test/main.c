@@ -85,7 +85,8 @@ void getCharacterData(){
         return;
     }
     
-    printf("Current character id is %d\n", row->character_id);
+    setCharacterName(row, "张温金");
+    printf("Current character name is %s\n", getCharacterName(row));
     
     freeCharacterTable(table);
     closeLocalStorage(fp);
@@ -101,8 +102,7 @@ void writeGlobalInfo(){
     }
     initGlobalInfo(&info);
     
-    enterDataForAllGoodsInfo(info);
-    enterDataForGoodsBagInfo(info);
+    enterGlobalInfoDataBeforeSaving(info);
     
     
     toWriteGlobalInfo(fp, info);
@@ -128,19 +128,61 @@ void readGlobalInfo(){
     int capacity = getGoodsBagCapacity(info, 3);
     printf("Goods bag capacity is %d.\n", capacity);
     
-    GoodsDetail *d = getGoodsDetailById(info, 11);
+    GoodsDetail *d = getGoodsDetailById(info, 101);
     printf("Goods name is %s\n", d->goods_name);
+    
+    ToolDetail *tool = getToolDetailById(info, 11);
+    printf("Tool name is %s\n", tool->tool_name);
+    
+    int tb_capacity = getToolsBagCapacity(info, 3);
+    printf("ToolsBag capacity is %d\n", tb_capacity);
     
     freeGlobalInfo(info);
     closeGlobalInfoFile(fp);
 }
 
+void simulateStartGame(){
+    FILE *fp = NULL;
+    CharacterTable *table = NULL;
+    CharacterRow *row = NULL;
+    int ret = createOrGetLocalStorage(&fp, "test.bin");
+    if (ret == ERROR) {
+        return;
+    }
+    
+    initCharacterTable(&table);
+    ret = toReadData(fp, table);
+    if (ret == ERROR){
+        memset(table, 0, sizeof(CharacterTable));
+        printf("There is no character. Please create a new one to start the game!\n");
+        int id = createCharacter(table);
+        if (id==ERROR) {
+            printf("Error happens\n");
+            return;
+        }
+        getCharacterRowById(&row, table, id);
+        setCharacterName(row, "小村长");
+    }else{
+        int id = 1;
+        getCharacterRowById(&row, table, id);
+    }
+    
+    printf("Character's name is %s\n", getCharacterName(row));
+    
+    toWriteData(fp, table);
+    
+    freeCharacterTable(table);
+    closeLocalStorage(fp);
+}
+
 int main(int argc, const char * argv[]) {
-    //mxzyWrite();
+    
     //mxzyRead();
     //getCharacterData();
-    writeGlobalInfo();
-    readGlobalInfo();
+    //mxzyWrite();
+    //writeGlobalInfo();
+    //readGlobalInfo();
+    simulateStartGame();
     return 0;
 }
 

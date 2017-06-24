@@ -14,7 +14,7 @@ int enterDataForAllGoodsInfo(GlobalInfo *info){
     }
     
     //输入茄子信息
-    info->allgoods_info.detail[0].goods_id = 11;
+    info->allgoods_info.detail[0].goods_id = 101;
     info->allgoods_info.detail[0].goods_max = 30;
     info->allgoods_info.detail[0].purchase_price = 300;
     info->allgoods_info.detail[0].sell_price = 200;
@@ -43,3 +43,30 @@ int enterDataForGoodsBagInfo(GlobalInfo *info){
     info->goodsbag_info.levels[2].bag_capacity = 30;
     return SUCCESS;
 }
+
+int enterDataForAllToolsInfo(GlobalInfo *info){
+    if (info == NULL) {
+        return ERROR;
+    }
+    
+    info->alltools_info.detail[0].tool_id = 11;
+    strcpy(info->alltools_info.detail[0].tool_name, "chuizi");
+    return SUCCESS;
+}
+
+int enterDataForToolsBagInfo(GlobalInfo *info){
+    if (info ==  NULL) {
+        return ERROR;
+    }
+    
+    info->toolsbag_info.info[0].bag_level = 1;
+    info->toolsbag_info.info[0].bag_capacity = 4;
+    
+    info->toolsbag_info.info[1].bag_level = 2;
+    info->toolsbag_info.info[1].bag_capacity = 8;
+    
+    
+    info->toolsbag_info.info[2].bag_level = 3;
+    info->toolsbag_info.info[2].bag_capacity = 10;
+    return SUCCESS;
+};
