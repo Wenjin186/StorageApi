@@ -20,6 +20,7 @@
 #include "EnterData.h"
 
 
+
 int createOrGetLocalStorage(FILE **fpp, const char *path);
 void closeLocalStorage(FILE *fp);
 //初始化CharacterTable和释放CharacterTable
@@ -47,11 +48,16 @@ void freeGlobalInfo(GlobalInfo *info);
 int toWriteGlobalInfo(FILE *fp, GlobalInfo *info);
 int toReadGlobalInfo(FILE *fp, GlobalInfo *info);
               //通过GlobalInfo获取的属性
+
 void enterGlobalInfoDataBeforeSaving(GlobalInfo *info);
 
 int getGoodsBagCapacity(GlobalInfo *info, int bag_level);
 int getToolsBagCapacity(GlobalInfo *info, int bag_level);
+
+
+//得到GoodsDetail
 GoodsDetail *getGoodsDetailById(GlobalInfo *info, int goods_id);
+//得到ToolDetail
 ToolDetail  *getToolDetailById(GlobalInfo *info, int tool_id);
 
 

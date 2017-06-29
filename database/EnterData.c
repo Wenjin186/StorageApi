@@ -70,3 +70,13 @@ int enterDataForToolsBagInfo(GlobalInfo *info){
     info->toolsbag_info.info[2].bag_capacity = 10;
     return SUCCESS;
 };
+
+int enterDataForCropTable(GlobalInfo *info){
+    if (info == NULL) {
+        return ERROR;
+    }
+    
+    info->croptable.cp[0].crop_id = 101;
+    
+    return SUCCESS;
+}

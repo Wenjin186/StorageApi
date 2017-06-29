@@ -145,7 +145,7 @@ void simulateStartGame(){
     FILE *fp = NULL;
     CharacterTable *table = NULL;
     CharacterRow *row = NULL;
-    int ret = createOrGetLocalStorage(&fp, "test.bin");
+    int ret = createOrGetLocalStorage(&fp, ".test.bin");
     if (ret == ERROR) {
         return;
     }

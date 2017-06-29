@@ -13,12 +13,14 @@
 #include "GoodsBagInfo.h"
 #include "AllToolsInfo.h"
 #include "ToolsBagInfo.h"
+#include "CropTable.h"
 
 typedef struct global_info{
     AllGoodsInfo allgoods_info;
     GoodsBagInfo goodsbag_info;
     AllToolsInfo alltools_info;
     ToolsBagInfo toolsbag_info;
+    CropTable croptable;
 }GlobalInfo;
 
 
